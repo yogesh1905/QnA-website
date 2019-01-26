@@ -1,0 +1,74 @@
+<html>
+  <head>
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="crossorigin="anonymous"></script>
+  </head>
+  <style>
+	.card {
+	  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	  max-width: 400px;
+	  margin: 10% auto;
+ 	  text-align: center;
+	  background-color: white;
+	}
+
+	.title {
+	  color: grey;
+	  font-size: 15px;
+	}
+	.titleP {
+	  color: grey;
+	  font-size: 18px;
+	}
+
+
+	button {
+	  border: none;
+	  outline: 0;
+	  display: inline-block;
+	  padding: 8px;
+	  color: white;
+	  background-color: #000;
+	  text-align: center;
+	  cursor: pointer;
+	  width: 100%;
+	  font-size: 18px;
+	}
+
+	a {
+	  text-decoration: none;
+	  font-size: 22px;
+	  color: black;
+	}
+
+	button:hover, a:hover {
+	  opacity: 0.7;
+	}
+  </style>
+  <body>
+	<div class="card">
+	  <img src="" alt="Loading..." style="width:100%">
+	  <h1><%= user.username %></h1>
+	  <p class="titleP"><%= user.name%></p>
+	  <p class="titleP"><%= user.profession%></p>
+	  <p><span class="title">College: </span><%= user.college %></p>
+	  <p><span class="title">Email: </span><%= user.email %></p>
+	  <p><span class="title">Interests: </span><%= user.interests %></p>
+	  <a href="#"><i class="fa fa-dribbble"></i></a>
+	  <a href="#"><i class="fa fa-twitter"></i></a>
+	  <a href="#"><i class="fa fa-linkedin"></i></a>
+	  <a href="#"><i class="fa fa-facebook"></i></a>
+	 <form method="POST" action="/qapp/viewprofile/<%= user.username %>">
+	 	<button type="submit">FOLLOW</button>
+	 </form>
+	</div>
+  </body>
+  <script>
+  	$(document).ready(function(){
+  		tag = document.getElementsByTagName('img')[0];
+  		console.log(tag);
+  		imgArr = ['img1.jpeg', 'img2.jpeg', 'img3.jpeg', 'img4.jpeg', 'img5.jpeg', 'img6.jpeg'];
+  		tag.setAttribute("src", "/assets/char/" + imgArr[Math.floor(6*Math.random())]);
+  	});
+  </script>
+</html>

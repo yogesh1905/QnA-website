@@ -1,0 +1,41 @@
+body{
+  background: #0d1521;
+  font-family: tahoma;
+  color: #989898;
+}
+
+#signup-table{
+  position: relative;
+  width: 95%;
+  background: #090d13;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+button{
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 12px;
+}
+p{
+  font-family: arial;
+  font-size: 40px;
+  text-align: relative;
+}
+
+a{
+  text-decoration: none;
+  color: blue;
+  font-size: 20px;
+}
+
+#invalidUsername{
+  color: red;
+  font-size: 10px;
+}
+a:hover { color: green; font-size: 22px;}
+
+button:hover {background-color: green;}

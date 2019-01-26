@@ -1,0 +1,172 @@
+ <br/>
+ <br/>
+ <br/>
+ <br/>
+ <link href='/assets/feedstyle.css' type='text/css' rel='stylesheet'>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<body>  
+
+    <div id="full">
+ 
+ <% for ( var i=0;i<arr.length;i++) { %>
+     
+     
+     <div id="question">
+     <%= arr[i].name %>
+     </div>
+     <a href="/qapp/<%= name.name %>/<%= arr[i]._id %>/answer" id="ansref" style="margin-left:600px; text-decoration: none;">Answer</a>
+     <p class="<%= name.name %>" id="p"></p>
+     <div id="answer">
+     <% for ( var j=0;j<arr[i].answers.length;j++) { %>
+ 
+     <% if(arr[i].answers[j].ans!=undefined){ %>
+         <%= arr[i].answers[j].ans %>
+         <br/>
+         <br/>
+         <% if(arr[i].answers[j].upvotedby.indexOf(name.name)!=-1){%>
+         <button class="<%= arr[i]._id %>" style="background-color: black;color: white; border-radius: 10px; margin-left:5px; "  id = <%=arr[i].answers[j]._id %>>Like</button>
+         <% }else{ %>
+            <button class="<%= arr[i]._id %>" style="background-color: white;color: black; border-radius: 10px; margin-left:5px; "id = <%=arr[i].answers[j]._id %>>Like</button>
+          <% } %>
+          <span class ="<%= arr[i].answers[j]._id %>"><%= arr[i].answers[j].upvotedby.length %></span>
+            <div id="ansby">- <%= arr[i].answers[j].by %></div>
+          <% } %>
+     <hr >
+     <% } %>
+     </div>
+     <% if(arr[i].answers.length===0){%>
+        <hr>
+    <%}%>
+ <% } %>
+ </div>
+ </body>
+ <style>
+         body{background-color:white;}
+         hr {
+  border: 0;
+  margin-left:0;
+  clear:both;
+  display:block;
+  width: 100%;               
+  background-color:black;
+  height: 1px;
+}
+</style>
+ <form method="POST" action="/home">
+     <button type="submit" id="uname" >Logout</button>
+   </form>
+   <% include ./nav.ejs %>
+ <input type="text" name="search" id="sea" placeholder="Search your question here..." class="form-control"></input>
+ <script>
+ $(document).ready(function(){
+  
+     $('#sea').keyup(function(){
+         var entered = {qry: $('#sea').val()};
+         $.ajax({
+             type:'POST',
+             url:'/search',
+             data: entered,
+             success:function(result){
+                 $("#full").html('');
+                 for(var i=0;i<result.obj.length;i++){
+                    var temp=result.obj[i]._id;
+                    var strq = "<div id='question' > "+ result.obj[i].name + "</div>"+`<a href='/qapp/${result.name}/${temp}/answer' id='ansref' style='margin-left:600px;' text-decoration: none;>Answer</a>`+`<p class="<%= name.name %>" id="p"></p>`;
+                    $("#full").append(strq);
+                    for ( var j=0;j<result.obj[i].answers.length;j++) {
+                     if(result.obj[i].answers[j]!=  null)
+                     {
+                 var str = "<div id='answer'>" 
+                             + result.obj[i].answers[j].ans +"<br/><br/>";
+                    console.log(result.name);
+                    if(result.obj[i].answers[j].upvotedby.indexOf(result.name)!=-1)
+                    {
+                        str=str+`<button class='${result.obj[i]._id}' style='background-color: black;color: white; border-radius: 10px; margin-left:5px; '  id = '${result.obj[i].answers[j]._id}'>Like</button>`;  
+                    }
+                    else
+                    {
+                        str=str+`<button class='${result.obj[i]._id}' style='background-color: white;color: black; border-radius: 10px; margin-left:5px; '  id = '${result.obj[i].answers[j]._id}'>Like</button>`;  
+   
+                    }
+                    str+=`<span class ='${result.obj[i].answers[j]._id}'> ${result.obj[i].answers[j].upvotedby.length}</span>`;
+                    str+=`<div id='ansby'>- ${result.obj[i].answers[j].by}</div>`;
+                    str+="<hr></div>";
+                     $("#full").append(str);
+                     }
+                    }
+                }    
+                $('button').on('click', function(){
+               idBtn =  document.getElementById(this.id);
+            if(idBtn.style.backgroundColor == "black"){
+            idBtn.style.backgroundColor = "white";
+            idBtn.style.color = "black";
+            var sTag = document.getElementsByClassName(this.id)[0];
+            var value = sTag.innerText;
+            value = parseInt(value, 10);
+            if(value - 1 < 0)
+                sTag.innerText = 0;
+            else
+                sTag.innerText = value-1;
+        }
+        else{
+            idBtn.style.backgroundColor = "black";
+            idBtn.style.color = "white";
+            var sTag = document.getElementsByClassName(this.id)[0];
+            var value = sTag.innerText;
+            value = parseInt(value, 10);
+            sTag.innerText = value + 1;
+        }
+        var pTag=document.getElementsByTagName('p')[0];
+        $.ajax({
+            type: 'POST',
+
+            url:`/qapp/${ pTag.className }/${this.className}/${this.id}/upvote`,
+            data: {},
+            success: function(result){
+                console.log("We saw that");
+            }
+        });
+        return false;
+     });               
+             }
+         });
+         return false;
+     });
+     $('button').on('click', function(){
+        idBtn =  document.getElementById(this.id);
+        if(idBtn.style.backgroundColor == "black"){
+            idBtn.style.backgroundColor = "white";
+            idBtn.style.color = "black";
+            var sTag = document.getElementsByClassName(this.id)[0];
+            var value = sTag.innerText;
+            value = parseInt(value, 10);
+            if(value - 1 < 0)
+                sTag.innerText = 0;
+            else
+                sTag.innerText = value-1;
+        }
+        else{
+            idBtn.style.backgroundColor = "black";
+            idBtn.style.color = "white";
+            var sTag = document.getElementsByClassName(this.id)[0];
+            var value = sTag.innerText;
+            value = parseInt(value, 10);
+            sTag.innerText = value + 1;
+        }
+        var pTag=document.getElementsByTagName('p')[0];
+        $.ajax({
+            type: 'POST',
+
+            url:`/qapp/${ pTag.className }/${this.className}/${this.id}/upvote`,
+            data: {},
+            success: function(result){
+                console.log("We saw that");
+            }
+        });
+        return false;
+     });
+ });
+ </script>
+
+ 
+ 

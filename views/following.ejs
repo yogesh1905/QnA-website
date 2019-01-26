@@ -1,0 +1,130 @@
+<html>
+  <head>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  	<style>
+  	  body,html{
+  	  	height: 100%;
+  	  	margin: 0 0 0 0;
+
+  	  }
+  	  .bg-image{
+		  /* The image used */
+		  background-image: url("/assets/mountain.jpg");
+
+		  /* Add the blur effect */
+		  filter: blur(8px);
+		  -webkit-filter: blur(8px);
+
+		  /* Full height */
+		  height: 100%;
+
+		  /* Center and scale the image nicely */
+		  background-position: center;
+		  background-repeat: no-repeat;
+		  background-size: cover;
+		}
+		#search
+		{
+			position: fixed;
+			top:100px;
+			margin-top: 10px;
+			width:50%;
+			margin-left: 25%;
+			margin-right: 20% !important;
+		}
+
+
+		.bg-text {
+		  background-color: rgb(0,0,0); /* Fallback color */
+		  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+		  color: white;
+		  border: 3px solid #f1f1f1;
+		  position: absolute;
+		  top: 300px;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  z-index: 2;
+		  width: 80%;
+		  padding: 20px;
+		  text-align: center;
+			
+  		}
+  		.bg-text a{
+  			text-decoration: none;
+  			color: white;
+  			font-size: 20px;
+  		}
+  		.bg-text a:hover{
+  			text-decoration: none;
+  			font-weight: bold;
+  			color: white;
+  		}
+
+  		.list-group-item a{
+  			color: black;
+		
+  		}
+		
+		  ul{
+			list-style-type: none;
+
+		  }
+  		.list-group-item a:hover{
+  			text-decoration: none;
+  			color: black;
+  			font-weight: bold;
+  		}
+
+  		#result{
+  			position: fixed;
+  			top:145px;
+  			margin-left: 25%;
+  			width: 50%;
+			z-index: 3;
+  		}
+  		h1{
+  			font-weight: bold;
+  		}
+
+  	</style>
+  </head>
+  <body>
+    <div class="bg-image"></div>
+	<input type="text" name="search" id="search" placeholder="Search User" class="form-control /">
+	<ul class="list-group" id="result"></ul>
+	<div class="bg-text">
+      <h1>You are Following</h1>
+      <ul>
+      	<%for(var i=0;i<arr.length;i++){%>
+      	<li><a href="/qapp/viewprofile/<%= arr[i] %>"><%= arr[i] %></a></li>
+      	<%}%>
+      </ul>
+      
+   </div> 
+  </body>
+  <% include ./nav.ejs %>
+
+</html>
+<script>
+$(document).ready(function(){
+
+	$('#search').keyup(function(){
+		var info = {qry: $('#search').val()};
+		$.ajax({
+			type: 'POST',
+			url: '/search/user',
+			data: info,
+			success: function(arr){
+				$('#result').html("");
+				for(var i=0;i<arr.length;i++){
+					$('#result').append(`<li class='list-group-item'><a href='/qapp/viewprofile/${arr[i].username}'>` + arr[i].username + "</a></li>" );
+				}
+			}
+		});
+		return false;
+	});
+
+
+});
+</script>

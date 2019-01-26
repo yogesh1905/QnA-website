@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+
+body{
+	background-size: cover;
+	background: linear-gradient(rgba(255,255,255,0.75), rgba(255,255,255,0)), url(/assets/library.jpg);
+}
+
+h1{
+	
+	opacity: 1;
+	font-family: Lobster;
+	font-size: 70px;
+
+}
+.main{
+
+	opacity: 1;
+	text-align: center;
+  	height: 800px;
+
+  	opacity:0.75;
+
+}
+
+p{
+	opacity: 1;
+	font-family: Lobster;
+	font-size: 50px;	
+}
+
+a{
+	opacity: 1;
+	text-decoration: none;
+	font-size: 30px;
+	font-family: Lobster;
+	color: blue;
+}
+
+a:hover {color: green; font-weight: bold;}
+
+
