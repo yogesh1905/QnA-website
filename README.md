@@ -1,5 +1,7 @@
 A MVC architecture node js web application using mongo db database.
 
+Cookie based authentication
+
 Mongo db should be installed in the pc.
 
 Connection is made to local mongo db database and databases are created automatically.

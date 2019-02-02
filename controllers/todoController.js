@@ -30,7 +30,7 @@ var User = new mongoose.model('user', userSchema);
 
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
-var question=require('../question.js');
+var question=require('../public/assets/databases/question.js');
 
 //res.cookie(name, id);
 module.exports = function(app){
@@ -241,7 +241,8 @@ module.exports = function(app){
             }
             else{
                 res.cookie('id', obj._id);
-                res.cookie('name', obj.username);
+				res.cookie('name', obj.username);
+				res.cookie('dbs brolly',"Is available on youtube XD");
             }
             res.json(data);    
         });
