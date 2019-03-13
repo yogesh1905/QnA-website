@@ -1,5 +1,5 @@
 var mongoose=require('mongoose');
-mongoose.connect('mongodb://localhost:27017/qapp', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/qapp', { useNewUrlParser: true });
 var questionSchema=new mongoose.Schema({
     askedby:String,
     name:String,

@@ -32,12 +32,10 @@ var urlencodedParser = bodyParser.urlencoded({extended: false});
 
 var question=require('../public/assets/databases/question.js');
 
-//res.cookie(name, id);
 module.exports = function(app){
 
 
-
-    app.get('/qapp/viewprofile/:name', function(req, res){
+app.get('/qapp/viewprofile/:name', function(req, res){
         User.findOne({username: req.params.name}, function(err, obj){
             if(err)
                 throw err;
@@ -45,6 +43,22 @@ module.exports = function(app){
         });
 
     });
+     app.use('/qapp/:name', function(req, res, next){
+
+        if(req.cookies.name == null || req.cookies.id == null)
+            res.render('notlogged');
+        User.findOne({username: req.cookies.name}, function(err, obj){
+            if(obj == null)
+                res.render('notlogged');
+            else if(obj._id == req.cookies.id && req.params.name==req.cookies.name)      
+                next();
+            else
+                res.render('notlogged');
+        });
+        
+    });
+
+    
     
     app.use('/qapp/:name', function(req, res, next){
 
