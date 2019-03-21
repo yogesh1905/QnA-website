@@ -7,11 +7,6 @@ mongoose.connect('mongodb://localhost/qapp', { useNewUrlParser: true });
 
 var MongoClient = require('mongodb').MongoClient,assert = require('assert');
 
-//Create a schema - this is like a blueprint
-var todoSchema = new mongoose.Schema({
-    user: String,
-    item: String
-});
 
 //Create a schema for users
 var userSchema = new mongoose.Schema({
@@ -39,10 +34,68 @@ app.get('/qapp/viewprofile/:name', function(req, res){
         User.findOne({username: req.params.name}, function(err, obj){
             if(err)
                 throw err;
+            if(obj==null)
+            res.render('404');
+            else
             res.render('viewprofile', {user: obj});
         });
 
     });
+    app.post('/qapp/viewprofile/:name', urlencodedParser, function(req, res){
+        
+        if(req.cookies.name === null)
+            {
+                res.render('notlogged');
+
+            }
+        else
+            {
+                if(req.cookies.name==null)
+                {
+                    res.render('notlogged');
+                }
+                User.findOne({username: req.cookies.name}, function(err, obj){
+                    console.log(obj);
+                    if(err)
+                    throw err;
+                if(!obj)
+                    {  
+                        console.log("HEREKBJG");
+                        res.render('404');
+                    }
+                else if(obj._id!=req.cookies.id && obj!=null)
+                    res.render('404');
+
+                var temp = obj.following;     
+                var isFound = temp.indexOf(req.params.name);
+                if(isFound === -1){
+                    temp.push(req.params.name);
+                    User.findOneAndUpdate({username: req.cookies.name}, {following: temp}, function(err, obj){
+                        if(err)
+                            throw err;
+                        User.findOne({username: req.params.name}, function(err, obj){
+                            if(err) throw err;
+                            var currFollowers = obj.followers;
+                            currFollowers.push(req.cookies.name);
+                            User.findOneAndUpdate({username: req.params.name}, {followers: currFollowers}, function(err, obj){
+                                if(err)
+                                    throw err;
+                                res.redirect('/qapp/' + req.cookies.name);
+                            });
+                        });
+                    });
+                }
+        
+                else
+                {
+                    res.redirect('/qapp/' + req.cookies.name);    
+                }
+
+            });
+        };
+
+    });
+
      app.use('/qapp/:name', function(req, res, next){
 
         if(req.cookies.name == null || req.cookies.id == null)
@@ -110,48 +163,7 @@ app.get('/qapp/viewprofile/:name', function(req, res){
             });
         }
     });
-    
-
-    //When the follow button is pressed for the :name user by the current user, this post request is made
-    app.post('/qapp/viewprofile/:name', urlencodedParser, function(req, res){
-        
-        if(req.cookies.name === null)
-            res.render('notlogged');
-        
-        else
-            {
-                User.findOne({username: req.cookies.name}, function(err, obj){
-                if(err)
-                    throw err;
-                var temp = obj.following;     
-                var isFound = temp.indexOf(req.params.name);
-                if(isFound === -1){
-                    temp.push(req.params.name);
-                    User.findOneAndUpdate({username: req.cookies.name}, {following: temp}, function(err, obj){
-                        if(err)
-                            throw err;
-                        User.findOne({username: req.params.name}, function(err, obj){
-                            if(err) throw err;
-                            var currFollowers = obj.followers;
-                            currFollowers.push(req.cookies.name);
-                            User.findOneAndUpdate({username: req.params.name}, {followers: currFollowers}, function(err, obj){
-                                if(err)
-                                    throw err;
-                                res.redirect('/qapp/' + req.cookies.name);
-                            });
-                        });
-                    });
-                }
-                else
-                {
-                    res.redirect('/qapp/' + req.cookies.name);    
-                }
-
-            });
-        };
-
-    });
-
+       
 
     
     
@@ -223,7 +235,6 @@ app.get('/qapp/viewprofile/:name', function(req, res){
         {    
             if(err) throw err;
             var name={name:req.params.name};
-            var question={arr:obj};
             res.render('feedn',{arr:obj,name:name});    
         });;
     });
@@ -269,7 +280,8 @@ app.get('/qapp/viewprofile/:name', function(req, res){
         User.findOne({username: newLogin.username, password: newLogin.password}, function (err, obj){
             if(err)
                 throw err;
-            if(obj === null){
+            if(obj === null)
+            {
                 data.error = true;
             }
             res.json(data);
