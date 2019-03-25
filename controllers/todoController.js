@@ -43,31 +43,35 @@ app.get('/qapp/viewprofile/:name', function(req, res){
     });
     app.post('/qapp/viewprofile/:name', urlencodedParser, function(req, res){
         
-        if(req.cookies.name === null)
+        // if(req.cookies.name === null)
+        //     {
+        //         res.render('notlogged');
+        //     }
+        if(true)
             {
-                res.render('notlogged');
-            }
-        else
-            {
-                if(req.cookies.name==null)
-                {   
-                    res.render('notlogged');
-                }
+              
                 User.findOne({username: req.cookies.name}, function(err, obj){
                     console.log(obj);
                     if(err)
                     throw err;
-                if(!obj)
+                    var temp,isFound;
+                if(obj==null)
                     {  
                         console.log("HEREKBJG");
-                        res.render('404');
+                        res.render('notlogged');
                     }
-                else if(obj._id!=req.cookies.id && obj!=null)
-                    res.render('404');
-
-                var temp = obj.following;     
-                var isFound = temp.indexOf(req.params.name);
-                if(isFound === -1){
+                else
+                { if(obj._id!=req.cookies.id && obj!=null)
+                    {
+                        res.render('notlogged');
+                    }
+                else
+                {
+                    temp = obj.following;     
+                    isFound = temp.indexOf(req.params.name);
+                }
+                if(isFound === -1)
+                {
                     temp.push(req.params.name);
                     User.findOneAndUpdate({username: req.cookies.name}, {following: temp}, function(err, obj){
                         if(err)
@@ -89,6 +93,7 @@ app.get('/qapp/viewprofile/:name', function(req, res){
                 {
                     res.redirect('/qapp/' + req.cookies.name);    
                 }
+            }
 
             });
         };
