@@ -86,7 +86,23 @@
   		h1{
   			font-weight: bold;
   		}
-
+			#uname:hover
+{
+    background-color:gray;
+    color:black;
+}
+#uname
+{
+    position: fixed;
+    bottom:0;
+    right: 0;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    width: 20%;
+    height: 5%;
+    margin-bottom: 20px;
+}
   	</style>
   </head>
   <body>
@@ -102,7 +118,10 @@
       </ul>
       
    </div> 
-  </body>
+	</body>
+	<form method="POST" action="/home">
+		<button type="submit" id="uname" >Logout</button>
+	</form>
   <% include ./nav.ejs %>
 
 </html>

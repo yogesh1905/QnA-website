@@ -9,9 +9,29 @@
 </form>
 </div>
 </body>
+<form method="POST" action="/home">
+    <button type="submit" id="uname" >Logout</button>
+</form>
 <% include ./nav.ejs %>
 
 <style>
+    #uname:hover
+{
+    background-color:gray;
+    color:black;
+}
+#uname
+{
+    position: fixed;
+    bottom:0;
+    right: 0;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    width: 20%;
+    height: 5%;
+    margin-bottom: 20px;
+}
 h1{
     color:whitesmoke;
     font-family: 'Times New Roman', Times, serif;

@@ -46,12 +46,11 @@ app.get('/qapp/viewprofile/:name', function(req, res){
         if(req.cookies.name === null)
             {
                 res.render('notlogged');
-
             }
         else
             {
                 if(req.cookies.name==null)
-                {
+                {   
                     res.render('notlogged');
                 }
                 User.findOne({username: req.cookies.name}, function(err, obj){
