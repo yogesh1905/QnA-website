@@ -1,3 +1,5 @@
+[![HitCount](http://hits.dwyl.io/Vivekgoku20/QnA-website.svg)](http://hits.dwyl.io/Vivekgoku20/QnA-website)
+
 A MVC architecture node js web application using mongo db database.
 
 Cookie based authentication
