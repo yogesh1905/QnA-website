@@ -1,6 +1,7 @@
 [![HitCount](http://hits.dwyl.io/Vivekgoku20/QnA-website.svg)](http://hits.dwyl.io/Vivekgoku20/QnA-website)
 
 A MVC architecture node js web application using mongo db database.
+To read more about MVC Architecture you can refer - https://www.tutorialspoint.com/mvc_framework/mvc_framework_introduction.htm
 
 Cookie based authentication
 
