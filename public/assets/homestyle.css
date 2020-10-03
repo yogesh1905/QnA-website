@@ -9,14 +9,14 @@ h1{
 	
 	opacity: 1;
 	font-family: Lobster;
-	font-size: 70px;
+	font-size: 73px;
 
 }
 .main{
 
 	opacity: 1;
 	text-align: center;
-  	height: 800px;
+  	height: 820px;
 
   	opacity:0.75;
 
@@ -36,6 +36,6 @@ a{
 	color: blue;
 }
 
-a:hover {color: green; font-weight: bold;}
+a:hover {color: red; font-weight: bold;}
 
 
